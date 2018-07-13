@@ -2,6 +2,8 @@ package com.mpod.data.source.remote;
 
 import com.mpod.data.source.remote.utils.UrlBuilder;
 
+import javax.inject.Inject;
+
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -14,7 +16,8 @@ public class ArtistRemoteDataSource implements ApiHelper {
     private String apiKey;
 
 
-    public ArtistRemoteDataSource(String apiKey) {
+    @Inject
+    public ArtistRemoteDataSource(@LastfmApiKey String apiKey) {
         this.apiKey = apiKey;
     }
 

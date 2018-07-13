@@ -3,8 +3,10 @@ package com.mpod.data.source;
 import android.app.Application;
 import android.arch.persistence.room.Room;
 
+import com.mpod.R;
 import com.mpod.data.source.local.ArtistDao;
 import com.mpod.data.source.local.MpodDatabase;
+import com.mpod.data.source.remote.LastfmApiKey;
 
 import javax.inject.Singleton;
 
@@ -18,6 +20,13 @@ import dagger.Provides;
  */
 @Module
 public class ArtistRepositoryModule {
+
+    @Singleton
+    @Provides
+    @LastfmApiKey
+    String provideApiKey(Application context) {
+        return context.getApplicationContext().getString(R.string.lastfm_api_key);
+    }
 
     @Singleton
     @Provides
