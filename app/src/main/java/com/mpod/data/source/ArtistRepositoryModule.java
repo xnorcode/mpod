@@ -8,6 +8,8 @@ import com.mpod.data.source.local.ArtistDao;
 import com.mpod.data.source.local.ArtistLocalDataSource;
 import com.mpod.data.source.local.DbHelper;
 import com.mpod.data.source.local.MpodDatabase;
+import com.mpod.data.source.remote.ApiHelper;
+import com.mpod.data.source.remote.ArtistRemoteDataSource;
 import com.mpod.data.source.remote.LastfmApiKey;
 
 import javax.inject.Singleton;
@@ -22,6 +24,12 @@ import dagger.Provides;
  */
 @Module
 public class ArtistRepositoryModule {
+
+    @Singleton
+    @Provides
+    ApiHelper provideArtistRemoteDataSource(String apiKey) {
+        return new ArtistRemoteDataSource(apiKey);
+    }
 
     @Singleton
     @Provides
