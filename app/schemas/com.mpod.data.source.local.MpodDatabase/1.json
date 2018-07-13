@@ -1,0 +1,69 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "461a16be45d3246d5baa4ac349db2f64",
+    "entities": [
+      {
+        "tableName": "artists",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mbID` TEXT NOT NULL, `name` TEXT, `lastfmProfileUrl` TEXT, `imageUrl` TEXT, `listeners` TEXT, `playcount` TEXT, `bioSummary` TEXT, PRIMARY KEY(`mbID`))",
+        "fields": [
+          {
+            "fieldPath": "mbID",
+            "columnName": "mbID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastfmProfileUrl",
+            "columnName": "lastfmProfileUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "imageUrl",
+            "columnName": "imageUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "listeners",
+            "columnName": "listeners",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "playcount",
+            "columnName": "playcount",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "bioSummary",
+            "columnName": "bioSummary",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "mbID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"461a16be45d3246d5baa4ac349db2f64\")"
+    ]
+  }
+}
