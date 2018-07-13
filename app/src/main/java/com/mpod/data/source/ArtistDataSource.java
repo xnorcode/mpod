@@ -6,16 +6,16 @@ import com.mpod.data.Artist;
 
 import java.util.List;
 
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 
 /**
  * Created by xnorcode on 13/07/2018.
  */
 public interface ArtistDataSource {
 
-    Observable<List<Artist>> searchArtist(String name);
+    Flowable<List<Artist>> searchArtist(String name);
 
-    Observable<Artist> getArtistInfo(@NonNull String mbID);
+    Flowable<Artist> getArtistInfo(@NonNull String mbID);
 
     void refreshArtists();
 }
