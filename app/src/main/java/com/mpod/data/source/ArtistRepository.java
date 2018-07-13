@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import io.reactivex.Observable;
 import okhttp3.Response;
@@ -20,6 +21,7 @@ import okhttp3.Response;
 /**
  * Created by xnorcode on 13/07/2018.
  */
+@Singleton
 public class ArtistRepository implements ArtistDataSource {
 
     private DbHelper mArtistLocalDataSource;
@@ -120,17 +122,14 @@ public class ArtistRepository implements ArtistDataSource {
                     // get response json data
                     String json = response.body().string();
                     // extract data from JSON and return list of artists
-                    return JsonHelper.extractArtists(json);
-                })
-                .flatMap(artists -> {
+                    List<Artist> artists = JsonHelper.extractArtists(json);
                     if (artists != null && !artists.isEmpty()) {
                         // refresh artist in the cache
                         refreshCache(artists);
                         // refresh local data source
                         refreshLocalDataSource(artists);
                     }
-                    // return artists
-                    return Observable.just(artists);
+                    return artists;
                 });
     }
 
@@ -149,9 +148,7 @@ public class ArtistRepository implements ArtistDataSource {
                     // get response json data
                     String json = response.body().string();
                     // extract data from JSON and return artist info
-                    return JsonHelper.extractArtistInfo(json);
-                })
-                .flatMap(artist -> {
+                    Artist artist = JsonHelper.extractArtistInfo(json);
                     if (artist != null) {
                         // save to cache
                         mCachedArtists.put(artist.getMbID(), artist);
@@ -159,7 +156,7 @@ public class ArtistRepository implements ArtistDataSource {
                         mArtistLocalDataSource.updateArtist(artist);
                     }
                     // return artist
-                    return Observable.just(artist);
+                    return artist;
                 });
     }
 
