@@ -1,4 +1,4 @@
-package com.mpod.data.source.remote;
+package com.mpod.data.source;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

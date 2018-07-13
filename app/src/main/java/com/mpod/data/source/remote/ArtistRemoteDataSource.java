@@ -1,5 +1,6 @@
 package com.mpod.data.source.remote;
 
+import com.mpod.data.source.LastfmApiKey;
 import com.mpod.data.source.remote.utils.UrlBuilder;
 
 import javax.inject.Inject;

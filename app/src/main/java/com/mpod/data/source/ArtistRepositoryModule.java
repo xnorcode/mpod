@@ -10,7 +10,6 @@ import com.mpod.data.source.local.DbHelper;
 import com.mpod.data.source.local.MpodDatabase;
 import com.mpod.data.source.remote.ApiHelper;
 import com.mpod.data.source.remote.ArtistRemoteDataSource;
-import com.mpod.data.source.remote.LastfmApiKey;
 
 import javax.inject.Singleton;
 
@@ -27,7 +26,7 @@ public class ArtistRepositoryModule {
 
     @Singleton
     @Provides
-    ApiHelper provideArtistRemoteDataSource(String apiKey) {
+    ApiHelper provideArtistRemoteDataSource(@LastfmApiKey String apiKey) {
         return new ArtistRemoteDataSource(apiKey);
     }
 
