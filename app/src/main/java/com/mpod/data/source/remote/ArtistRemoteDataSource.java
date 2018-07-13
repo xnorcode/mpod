@@ -3,6 +3,7 @@ package com.mpod.data.source.remote;
 import com.mpod.data.source.remote.utils.UrlBuilder;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -11,6 +12,7 @@ import okhttp3.Request;
 /**
  * Created by xnorcode on 13/07/2018.
  */
+@Singleton
 public class ArtistRemoteDataSource implements ApiHelper {
 
     private String apiKey;
