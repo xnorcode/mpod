@@ -15,7 +15,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import okhttp3.Response;
 
 /**
@@ -49,11 +49,11 @@ public class ArtistRepository implements ArtistDataSource {
      * @return A list with the possible results wrapped in an Observable
      */
     @Override
-    public Observable<List<Artist>> searchArtist(String name) {
+    public Flowable<List<Artist>> searchArtist(String name) {
 
         // get results directly from cache
         if (mCachedArtists != null && !mCacheInvalid) {
-            return Observable.just(new ArrayList<Artist>(mCachedArtists.values()));
+            return Flowable.just(new ArrayList<Artist>(mCachedArtists.values()));
         }
 
         if (mCacheInvalid) {
@@ -61,7 +61,7 @@ public class ArtistRepository implements ArtistDataSource {
             return downloadArtistFromRemoteDataSource(name);
         } else {
             // check in the local database
-            return Observable.just(mArtistLocalDataSource.getArtists())
+            return Flowable.just(mArtistLocalDataSource.getArtists())
                     .flatMap(artists -> {
                         // cache
                         if (artists != null && !artists.isEmpty())
@@ -69,7 +69,7 @@ public class ArtistRepository implements ArtistDataSource {
                         // if not in local db download from remote
                         if (artists == null || artists.isEmpty())
                             return downloadArtistFromRemoteDataSource(name);
-                        return Observable.just(artists);
+                        return Flowable.just(artists);
                     });
         }
     }
@@ -82,18 +82,18 @@ public class ArtistRepository implements ArtistDataSource {
      * @return The queried artist wrapped in an Observable
      */
     @Override
-    public Observable<Artist> getArtistInfo(@NonNull String mbID) {
+    public Flowable<Artist> getArtistInfo(@NonNull String mbID) {
 
         Artist cachedArtist = getCachedArtist(mbID);
         // check cache
-        if (hasInfo(cachedArtist)) return Observable.just(cachedArtist);
+        if (hasInfo(cachedArtist)) return Flowable.just(cachedArtist);
 
         // check in local
-        return Observable.just(mArtistLocalDataSource.getArtistInfo(mbID))
+        return Flowable.just(mArtistLocalDataSource.getArtistInfo(mbID))
                 .flatMap(artist -> {
                     // download from remote if does not have info
                     if (!hasInfo(artist)) return downloadArtistInfoFromApi(mbID);
-                    return Observable.just(artist);
+                    return Flowable.just(artist);
                 });
     }
 
@@ -114,8 +114,8 @@ public class ArtistRepository implements ArtistDataSource {
      * @param name The name of the artist to search for
      * @return The possible list of artists as a result
      */
-    private Observable<List<Artist>> downloadArtistFromRemoteDataSource(String name) {
-        return Observable.just(mArtistRemoteLocalDataSource.searchArtist(name))
+    private Flowable<List<Artist>> downloadArtistFromRemoteDataSource(String name) {
+        return Flowable.just(mArtistRemoteLocalDataSource.searchArtist(name))
                 .map(call -> {
                     // execute network call
                     Response response = call.execute();
@@ -140,8 +140,8 @@ public class ArtistRepository implements ArtistDataSource {
      * @param mbid The mbid of the artist
      * @return The artist info
      */
-    private Observable<Artist> downloadArtistInfoFromApi(String mbid) {
-        return Observable.just(mArtistRemoteLocalDataSource.getArtistInfo(mbid))
+    private Flowable<Artist> downloadArtistInfoFromApi(String mbid) {
+        return Flowable.just(mArtistRemoteLocalDataSource.getArtistInfo(mbid))
                 .map(call -> {
                     // execute network call
                     Response response = call.execute();
