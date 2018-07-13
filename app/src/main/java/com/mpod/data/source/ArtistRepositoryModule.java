@@ -5,6 +5,8 @@ import android.arch.persistence.room.Room;
 
 import com.mpod.R;
 import com.mpod.data.source.local.ArtistDao;
+import com.mpod.data.source.local.ArtistLocalDataSource;
+import com.mpod.data.source.local.DbHelper;
 import com.mpod.data.source.local.MpodDatabase;
 import com.mpod.data.source.remote.LastfmApiKey;
 
@@ -20,6 +22,12 @@ import dagger.Provides;
  */
 @Module
 public class ArtistRepositoryModule {
+
+    @Singleton
+    @Provides
+    DbHelper provideArtistLocalDataSource(ArtistDao dao) {
+        return new ArtistLocalDataSource(dao);
+    }
 
     @Singleton
     @Provides
