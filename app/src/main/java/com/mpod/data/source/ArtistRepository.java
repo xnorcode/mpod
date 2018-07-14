@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.mpod.data.Artist;
 import com.mpod.data.source.local.DbHelper;
 import com.mpod.data.source.remote.ApiHelper;
-import com.mpod.data.source.remote.utils.JsonHelper;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -15,8 +14,8 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
-import okhttp3.Response;
 
 /**
  * Created by xnorcode on 13/07/2018.
@@ -26,17 +25,17 @@ public class ArtistRepository implements ArtistDataSource {
 
     private DbHelper mArtistLocalDataSource;
 
-    private ApiHelper mArtistRemoteLocalDataSource;
+    private ApiHelper mArtistRemoteDataSource;
 
-    private Map<String, Artist> mCachedArtists;
-
-    private boolean mCacheInvalid;
+    // allowing package local visibility in tests only
+    Map<String, Artist> mCachedArtists;
+    boolean mCacheInvalid;
 
 
     @Inject
-    public ArtistRepository(DbHelper artistLocalDataSource, ApiHelper artistRemoteLocalDataSource) {
+    public ArtistRepository(DbHelper artistLocalDataSource, ApiHelper artistRemoteDataSource) {
         this.mArtistLocalDataSource = artistLocalDataSource;
-        this.mArtistRemoteLocalDataSource = artistRemoteLocalDataSource;
+        this.mArtistRemoteDataSource = artistRemoteDataSource;
         mCacheInvalid = false;
     }
 
@@ -61,16 +60,24 @@ public class ArtistRepository implements ArtistDataSource {
             return downloadArtistFromRemoteDataSource(name);
         } else {
             // check in the local database
-            return Flowable.just(mArtistLocalDataSource.getArtists())
-                    .flatMap(artists -> {
-                        // cache
-                        if (artists != null && !artists.isEmpty())
-                            refreshCache(artists);
-                        // if not in local db download from remote
-                        if (artists == null || artists.isEmpty())
-                            return downloadArtistFromRemoteDataSource(name);
-                        return Flowable.just(artists);
-                    });
+            return Flowable.<List<Artist>>create(emitter -> {
+                // get artists from local db
+                List<Artist> artists = mArtistLocalDataSource.getArtists();
+
+                // if data not valid download from remote API
+                if (artists == null || artists.isEmpty()) {
+                    // will download artists from remote API at onErrorResumeNext()
+                    emitter.onError(new Exception("Could not load artists..."));
+                    return;
+                }
+
+                // cache
+                refreshCache(artists);
+                // proceed
+                emitter.onNext(artists);
+                emitter.onComplete();
+            }, BackpressureStrategy.ERROR)
+                    .onErrorResumeNext(downloadArtistFromRemoteDataSource(name));
         }
     }
 
@@ -88,13 +95,25 @@ public class ArtistRepository implements ArtistDataSource {
         // check cache
         if (hasInfo(cachedArtist)) return Flowable.just(cachedArtist);
 
-        // check in local
-        return Flowable.just(mArtistLocalDataSource.getArtistInfo(mbID))
-                .flatMap(artist -> {
-                    // download from remote if does not have info
-                    if (!hasInfo(artist)) return downloadArtistInfoFromApi(mbID);
-                    return Flowable.just(artist);
-                });
+        // check in local db
+        return Flowable.<Artist>create(emitter -> {
+            // get artist from local db
+            Artist artist = mArtistLocalDataSource.getArtistInfo(mbID);
+
+            // check data if not valid
+            if (!hasInfo(artist)) {
+                // will download artist info from remote API at onErrorResumeNext()
+                emitter.onError(new Exception("Artist info was not found..."));
+                return;
+            }
+
+            // cache
+            refreshCachedArtist(artist);
+            // proceed
+            emitter.onNext(artist);
+            emitter.onComplete();
+        }, BackpressureStrategy.ERROR)
+                .onErrorResumeNext(downloadArtistInfoFromRemoteDataSource(mbID));
     }
 
 
@@ -115,22 +134,24 @@ public class ArtistRepository implements ArtistDataSource {
      * @return The possible list of artists as a result
      */
     private Flowable<List<Artist>> downloadArtistFromRemoteDataSource(String name) {
-        return Flowable.just(mArtistRemoteLocalDataSource.searchArtist(name))
-                .map(call -> {
-                    // execute network call
-                    Response response = call.execute();
-                    // get response json data
-                    String json = response.body().string();
-                    // extract data from JSON and return list of artists
-                    List<Artist> artists = JsonHelper.extractArtists(json);
-                    if (artists != null && !artists.isEmpty()) {
-                        // refresh artist in the cache
-                        refreshCache(artists);
-                        // refresh local data source
-                        refreshLocalDataSource(artists);
-                    }
-                    return artists;
-                });
+        return Flowable.create(emitter -> {
+            // get artists from API
+            List<Artist> artists = mArtistRemoteDataSource.searchArtist(name);
+
+            // complete if data not valid
+            if (artists == null || artists.isEmpty()) {
+                emitter.onError(new Exception("Could not download artists..."));
+                return;
+            }
+
+            // refresh artist in the cache
+            refreshCache(artists);
+            // refresh local data source
+            refreshLocalDataSource(artists);
+            // proceed
+            emitter.onNext(artists);
+            emitter.onComplete();
+        }, BackpressureStrategy.ERROR);
     }
 
 
@@ -140,24 +161,25 @@ public class ArtistRepository implements ArtistDataSource {
      * @param mbid The mbid of the artist
      * @return The artist info
      */
-    private Flowable<Artist> downloadArtistInfoFromApi(String mbid) {
-        return Flowable.just(mArtistRemoteLocalDataSource.getArtistInfo(mbid))
-                .map(call -> {
-                    // execute network call
-                    Response response = call.execute();
-                    // get response json data
-                    String json = response.body().string();
-                    // extract data from JSON and return artist info
-                    Artist artist = JsonHelper.extractArtistInfo(json);
-                    if (artist != null) {
-                        // save to cache
-                        mCachedArtists.put(artist.getMbID(), artist);
-                        // update to local db
-                        mArtistLocalDataSource.updateArtist(artist);
-                    }
-                    // return artist
-                    return artist;
-                });
+    private Flowable<Artist> downloadArtistInfoFromRemoteDataSource(String mbid) {
+        return Flowable.create(emitter -> {
+            // get artist from API
+            Artist artist = mArtistRemoteDataSource.getArtistInfo(mbid);
+
+            // complete if data not valid
+            if (artist == null) {
+                emitter.onError(new Exception("Could not download Artist info..."));
+                return;
+            }
+
+            // save to cache
+            refreshCachedArtist(artist);
+            // update to local db
+            mArtistLocalDataSource.updateArtist(artist);
+            // proceed
+            emitter.onNext(artist);
+            emitter.onComplete();
+        }, BackpressureStrategy.ERROR);
     }
 
 
@@ -176,6 +198,18 @@ public class ArtistRepository implements ArtistDataSource {
         }
         // mark as valid
         mCacheInvalid = false;
+    }
+
+
+    /**
+     * Private method to refresh an artist info in cache
+     *
+     * @param artist The artist to be updated in cache
+     */
+    private void refreshCachedArtist(Artist artist) {
+        if (mCachedArtists != null)
+            // add to cache
+            mCachedArtists.put(artist.getMbID(), artist);
     }
 
 
