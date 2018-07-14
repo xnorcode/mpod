@@ -13,7 +13,7 @@ import javax.inject.Singleton;
  * Created by xnorcode on 13/07/2018.
  */
 @Singleton
-public class ArtistLocalDataSource implements DbHelper{
+public class ArtistLocalDataSource implements DbHelper {
 
 
     private ArtistDao mArtistDao;
@@ -28,7 +28,7 @@ public class ArtistLocalDataSource implements DbHelper{
     /**
      * Get all artist stored in the db
      *
-     * @return The list of artist wrapped in an Observable
+     * @return The list of artist
      */
     @Override
     public List<Artist> getArtists() {
@@ -40,7 +40,7 @@ public class ArtistLocalDataSource implements DbHelper{
      * Get an artist from the db based on its mbid
      *
      * @param mbID The artist's mbid
-     * @return Return the artist wrapped in an Observable
+     * @return Return the artist
      */
     @Override
     public Artist getArtistInfo(@NonNull String mbID) {
