@@ -1,13 +1,15 @@
 package com.mpod.data.source.remote;
 
-import okhttp3.Call;
+import com.mpod.data.Artist;
+
+import java.util.List;
 
 /**
  * Created by xnorcode on 13/07/2018.
  */
 public interface ApiHelper {
 
-    Call searchArtist(String name);
+    List<Artist> searchArtist(String name);
 
-    Call getArtistInfo(String mbid);
+    Artist getArtistInfo(String mbid);
 }
