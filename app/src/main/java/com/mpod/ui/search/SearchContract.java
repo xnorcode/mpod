@@ -14,7 +14,7 @@ public interface SearchContract {
         /**
          * proceed to list activity
          */
-        void startListActivity();
+        void startListActivity(String artistNme);
 
 
         /**
