@@ -6,10 +6,13 @@ import com.mpod.data.source.remote.ApiHelper;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,11 +26,13 @@ import io.reactivex.subscribers.TestSubscriber;
  */
 public class ArtistRepositoryTest {
 
+    // invokes MockitoAnnotations.initMocks()
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
+
 
     private Artist mArtist;
     private List<Artist> mArtists;
-
-    private ArtistRepository mArtistRepository;
 
     @Mock
     private ApiHelper mArtistRemoteDataSource;
@@ -35,15 +40,12 @@ public class ArtistRepositoryTest {
     @Mock
     private DbHelper mArtistLocalDataSource;
 
+    @InjectMocks
+    private ArtistRepository mArtistRepository;
+
 
     @Before
     public void setup() {
-        // init mock injection
-        MockitoAnnotations.initMocks(this);
-
-        // init repository
-        mArtistRepository = new ArtistRepository(mArtistLocalDataSource, mArtistRemoteDataSource);
-
         // init artist and list
         mArtist = new Artist("mbid", "name", "profile_url");
         mArtists = new ArrayList<>();
