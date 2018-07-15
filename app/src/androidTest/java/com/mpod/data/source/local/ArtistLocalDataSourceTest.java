@@ -1,4 +1,4 @@
-package com.mpod.data.local;
+package com.mpod.data.source.local;
 
 import android.arch.persistence.room.Room;
 import android.support.test.InstrumentationRegistry;
@@ -6,10 +6,6 @@ import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.mpod.data.Artist;
-import com.mpod.data.source.local.ArtistDao;
-import com.mpod.data.source.local.ArtistLocalDataSource;
-import com.mpod.data.source.local.DbHelper;
-import com.mpod.data.source.local.MpodDatabase;
 
 import junit.framework.Assert;
 

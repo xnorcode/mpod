@@ -1,10 +1,9 @@
-package com.mpod.data.remote.utils;
+package com.mpod.data.source.remote.utils;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.mpod.data.Artist;
-import com.mpod.data.source.remote.utils.JsonHelper;
 
 import org.json.JSONException;
 import org.junit.Assert;

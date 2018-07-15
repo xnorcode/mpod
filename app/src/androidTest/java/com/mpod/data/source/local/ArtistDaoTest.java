@@ -1,11 +1,10 @@
-package com.mpod.data.local;
+package com.mpod.data.source.local;
 
 import android.arch.persistence.room.Room;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.mpod.data.Artist;
-import com.mpod.data.source.local.MpodDatabase;
 
 import org.junit.After;
 import org.junit.Assert;
