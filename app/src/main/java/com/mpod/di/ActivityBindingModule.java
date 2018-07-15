@@ -1,5 +1,7 @@
 package com.mpod.di;
 
+import com.mpod.ui.search.SearchActivity;
+import com.mpod.ui.search.SearchModule;
 import com.mpod.ui.splash.SplashActivity;
 import com.mpod.ui.splash.SplashModule;
 
@@ -14,4 +16,7 @@ public abstract class ActivityBindingModule {
 
     @ContributesAndroidInjector(modules = SplashModule.class)
     abstract SplashActivity provideSplashActivity();
+
+    @ContributesAndroidInjector(modules = SearchModule.class)
+    abstract SearchActivity provideSearchActivity();
 }
