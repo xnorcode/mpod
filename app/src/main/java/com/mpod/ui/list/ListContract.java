@@ -45,8 +45,8 @@ public interface ListContract {
         /**
          * search for an artist in last.fm
          *
-         * @param mbid The mbid of the artist
+         * @param name The name of the artist
          */
-        void searchArtist(String mbid);
+        void searchArtist(String name);
     }
 }

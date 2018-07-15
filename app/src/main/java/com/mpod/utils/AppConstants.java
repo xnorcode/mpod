@@ -5,5 +5,7 @@ package com.mpod.utils;
  */
 public class AppConstants {
 
-    public static final String SEARCH_ARTIST_NAME = "search_name";
+    public static final String ARTIST_NAME = "artist_name";
+
+    public static final String ARTIST_MBID = "artist_mbid";
 }
