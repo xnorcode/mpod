@@ -18,4 +18,6 @@ public interface ArtistDataSource {
     Flowable<Artist> getArtistInfo(@NonNull String mbID);
 
     void refreshArtists();
+
+    void deleteAllArtists();
 }

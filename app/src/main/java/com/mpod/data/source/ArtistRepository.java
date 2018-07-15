@@ -127,6 +127,13 @@ public class ArtistRepository implements ArtistDataSource {
     }
 
 
+    @Override
+    public void deleteAllArtists() {
+        // clear all previous results from db
+        mArtistLocalDataSource.deleteAllArtists();
+    }
+
+
     /**
      * Private method for searching and download a specific artist from the API
      *
