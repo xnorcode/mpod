@@ -32,8 +32,8 @@ public class SearchScreenTest {
         Espresso.onView(ViewMatchers.withId(R.id.search_box))
                 // check hint is correct
                 .check(ViewAssertions.matches(ViewMatchers.withHint(R.string.hint_text)))
-                .perform(ViewActions.replaceText("Cher"), ViewActions.pressImeActionButton())
-                .check(ViewAssertions.matches(ViewMatchers.withText("Cher")));
+                // type and search for artist
+                .perform(ViewActions.replaceText("Cher"), ViewActions.pressImeActionButton());
     }
 
 }
