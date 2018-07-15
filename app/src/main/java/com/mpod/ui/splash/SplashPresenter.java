@@ -5,14 +5,14 @@ import javax.inject.Inject;
 /**
  * Created by xnorcode on 15/07/2018.
  */
-public class SplashActivityPresenter implements SplashActivityContract.Presenter {
+public class SplashPresenter implements SplashContract.Presenter {
 
 
-    SplashActivityContract.View mView;
+    SplashContract.View mView;
 
 
     @Inject
-    public SplashActivityPresenter() {
+    public SplashPresenter() {
     }
 
 
@@ -22,7 +22,7 @@ public class SplashActivityPresenter implements SplashActivityContract.Presenter
     }
 
     @Override
-    public void setView(SplashActivityContract.View view) {
+    public void setView(SplashContract.View view) {
         mView = view;
     }
 

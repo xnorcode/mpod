@@ -6,7 +6,7 @@ import com.mpod.ui.base.BaseView;
 /**
  * Created by xnorcode on 15/07/2018.
  */
-public interface SplashActivityContract {
+public interface SplashContract {
 
     interface View extends BaseView<Presenter> {
 
