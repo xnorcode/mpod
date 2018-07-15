@@ -111,7 +111,9 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
         holder.mName.setText(artist.getName());
 
         // show artist listeners
-        holder.mListeners.setText(artist.getListeners());
+        StringBuilder sb = new StringBuilder("Listeners: ");
+        sb.append(artist.getListeners());
+        holder.mListeners.setText(sb.toString());
 
         // set onClick listener for each view to pass artist mbid to details activity
         holder.mView.setOnClickListener(v -> mView.showArtistDetails(artist.getMbID()));
