@@ -19,7 +19,10 @@ public class SearchPresenter implements SearchContract.Presenter {
 
     @Override
     public void startSearch(String artistName) {
-        mView.startListActivity(artistName);
+        if (isValid(artistName))
+            mView.startListActivity(artistName);
+        else
+            mView.showError("Invalid input please try again...");
     }
 
     @Override
@@ -30,5 +33,14 @@ public class SearchPresenter implements SearchContract.Presenter {
     @Override
     public void dropView() {
         mView = null;
+    }
+
+
+    /**
+     * Validate input
+     */
+    private boolean isValid(String input) {
+        if (input == null || input.isEmpty()) return false;
+        return true;
     }
 }

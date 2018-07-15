@@ -65,8 +65,6 @@ public class SearchFragment extends DaggerFragment implements SearchContract.Vie
                     mSearchBox.clearFocus();
                     return true;
                 }
-                // show error
-                showError("Could not read input...");
                 return false;
             }
         });
