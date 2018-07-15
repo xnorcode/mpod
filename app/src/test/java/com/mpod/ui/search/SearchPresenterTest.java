@@ -40,4 +40,17 @@ public class SearchPresenterTest {
         // verify start list activity method is triggered
         Mockito.verify(mView).startListActivity("name");
     }
+
+    @Test
+    public void startSearchArtist_showError() {
+
+        // start search with empty input
+        mPresenter.startSearch("");
+
+        // verify show error is triggered
+        Mockito.verify(mView).showError("Invalid input please try again...");
+
+        // verify startListActivity is not called
+        Mockito.verify(mView, Mockito.times(0)).startListActivity("");
+    }
 }
