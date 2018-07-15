@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.mpod.MpodApplication;
 import com.mpod.data.source.ArtistRepositoryModule;
+import com.mpod.utils.Schedulers.SchedulersProviderModule;
 
 import javax.inject.Singleton;
 
@@ -18,6 +19,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
 @Singleton
 @Component(modules = {ArtistRepositoryModule.class,
         ApplicationModule.class,
+        SchedulersProviderModule.class,
         ActivityBindingModule.class,
         AndroidSupportInjectionModule.class})
 public interface AppComponent extends AndroidInjector<MpodApplication> {
