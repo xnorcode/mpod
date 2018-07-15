@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">mpod</string>
+
+    <string name="hint_text">eg. Cher, Michael Jackson, …</string>
 </resources>
