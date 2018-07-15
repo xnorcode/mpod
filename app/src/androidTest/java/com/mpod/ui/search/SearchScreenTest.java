@@ -28,6 +28,11 @@ public class SearchScreenTest {
 
     @Test
     public void searchArtist_SearchBoxInput() {
+
+        // verify search box is displayed
+        Espresso.onView(ViewMatchers.withId(R.id.search_box))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
         // check hint correct
         Espresso.onView(ViewMatchers.withId(R.id.search_box))
                 // check hint is correct
