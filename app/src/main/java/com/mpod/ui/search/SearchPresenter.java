@@ -17,7 +17,7 @@ public class SearchPresenter implements SearchContract.Presenter {
 
     private SearchContract.View mView;
 
-    private ArtistRepository mArtistRepository;
+    ArtistRepository mArtistRepository;
 
     private CompositeDisposable mCompositeDisposable;
 
