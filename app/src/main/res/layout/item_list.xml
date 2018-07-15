@@ -2,7 +2,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/item_artist_image"
@@ -28,7 +28,6 @@
         android:layout_gravity="end"
         android:layout_marginTop="50dp"
         android:gravity="start"
-        android:padding="8dp"
         android:textColor="@android:color/black"/>
 
     <View
