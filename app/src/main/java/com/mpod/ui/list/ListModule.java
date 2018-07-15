@@ -2,6 +2,7 @@ package com.mpod.ui.list;
 
 import dagger.Binds;
 import dagger.Module;
+import dagger.android.ContributesAndroidInjector;
 
 /**
  * Created by xnorcode on 15/07/2018.
@@ -9,7 +10,7 @@ import dagger.Module;
 @Module
 public abstract class ListModule {
 
-    @Binds
+    @ContributesAndroidInjector
     abstract ListFragment providesListFragment();
 
     @Binds
