@@ -50,18 +50,23 @@ public class SearchFragment extends DaggerFragment implements SearchContract.Vie
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (((event != null) && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || actionId == EditorInfo.IME_ACTION_DONE) {
+
                     // search for inserted place
                     mPresenter.startSearch(mSearchBox.getText().toString());
+
                     // hide keyboard
                     View view = getActivity().getCurrentFocus();
                     if (view != null) {
                         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
+
                     // remove focus from search box
                     mSearchBox.clearFocus();
                     return true;
                 }
+                // show error
+                showError("Could not read input...");
                 return false;
             }
         });
@@ -85,13 +90,13 @@ public class SearchFragment extends DaggerFragment implements SearchContract.Vie
     public void startListActivity(String artistNme) {
         // pass searched artist name to list activity
         Intent intent = new Intent(getContext(), ListActivity.class);
-        intent.putExtra(AppConstants.SEARCH_ARTIST_NAME, artistNme);
+        intent.putExtra(AppConstants.ARTIST_NAME, artistNme);
         startActivity(intent);
     }
 
     @Override
     public void showError(String msg) {
-        Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
