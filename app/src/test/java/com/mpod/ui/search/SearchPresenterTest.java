@@ -52,7 +52,7 @@ public class SearchPresenterTest {
     }
 
     @Test
-    public void startSearchArtist() {
+    public void startSearchArtist_StartNextActivity() {
 
         // set data available in artist repository
         Mockito.when(mArtistRepository.searchArtist("name")).thenReturn(Flowable.just(mArtists));
@@ -60,6 +60,22 @@ public class SearchPresenterTest {
         // start search
         mPresenter.startSearch("name");
 
+        // verify start list activity is triggered
         Mockito.verify(mView).startListActivity("name");
+    }
+
+    @Test
+    public void startSearchArtist_showError() {
+
+        // set data not available in artist repository
+        Mockito.when(mArtistRepository.searchArtist("name")).thenReturn(Flowable.error(new Exception("error msg")));
+
+        // start search
+        mPresenter.startSearch("name");
+
+        // verify start next activity is not called
+        Mockito.verify(mView, Mockito.times(0)).startListActivity("name");
+        // verify show error is called
+        Mockito.verify(mView).showError("error msg");
     }
 }
