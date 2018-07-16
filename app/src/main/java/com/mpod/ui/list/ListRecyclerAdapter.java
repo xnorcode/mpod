@@ -105,7 +105,9 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
         Artist artist = mArtists.get(position);
 
         // show artist image
-        Picasso.get().load(artist.getImageUrl()).into(holder.mImage);
+        if (!artist.getImageUrl().isEmpty()){
+            Picasso.get().load(artist.getImageUrl()).into(holder.mImage);
+        }
 
         // show artist name
         holder.mName.setText(artist.getName());
