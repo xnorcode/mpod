@@ -42,29 +42,38 @@ public class JsonHelperTest {
 
     @Test
     public void extractArtists() throws JSONException {
+
         // get data from json
         List<Artist> actual = JsonHelper.extractArtists(mSearchArtistResponseData);
+
         // check data size
         Assert.assertNotEquals(0, actual.size());
+
         // check artist
         Assert.assertEquals(mArtist, actual.get(0));
     }
 
     @Test
     public void extractArtistInfo() throws JSONException {
+
         // get artist info from json
         Artist actual = JsonHelper.extractArtistInfo(mGetArtistInfoResponseData);
+
         // check if null
         Assert.assertNotNull(actual);
+
         // check artist
         Assert.assertEquals(mArtist, actual);
+
         // check listeners
         Assert.assertEquals("1055352", actual.getListeners());
     }
 
     private String loadFakeData(String fileName) throws IOException {
+
         // connect to json file in assets
         InputStream is = InstrumentationRegistry.getContext().getResources().getAssets().open(fileName);
+
         // read the file
         int size = is.available();
         byte[] buffer = new byte[size];

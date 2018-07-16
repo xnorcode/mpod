@@ -33,13 +33,17 @@ public class ArtistLocalDataSourceTest {
 
     @Before
     public void setup() {
+
         // init db
         mDatabase = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(),
                 MpodDatabase.class).build();
+
         // create ArtistDao
         ArtistDao dao = mDatabase.getArtistDao();
+
         // create ArtistLocalDataSource
         mLocalDataSource = new ArtistLocalDataSource(dao);
+
         // init artist and list
         mArtist = new Artist("mbid", "name", "lastfmprofileurl");
         mArtists = new ArrayList<>();
@@ -54,50 +58,67 @@ public class ArtistLocalDataSourceTest {
 
     @Test
     public void saveAndGetAllArtists() {
+
         // save artists
         mLocalDataSource.saveArtists(mArtists);
+
         // get all
         List<Artist> actual = mLocalDataSource.getArtists();
+
         // check actual value size
         Assert.assertEquals(1, actual.size());
+
         // check artist
         Assert.assertEquals(mArtist, actual.get(0));
     }
 
     @Test
     public void saveAndGetArtistById() {
+
         // save artists
         mLocalDataSource.saveArtists(mArtists);
+
         // get artist by mbid
         Artist actual = mLocalDataSource.getArtistInfo("mbid");
+
         // check artist
         Assert.assertEquals(mArtist, actual);
     }
 
     @Test
     public void saveAndUpdateArtist() {
+
         // save artists
         mLocalDataSource.saveArtists(mArtists);
+
         // set summary
         mArtist.setBioSummary("bioSummary");
+
         // update artist
         mLocalDataSource.updateArtist(mArtist);
+
         // get artist
         Artist actual = mLocalDataSource.getArtistInfo("mbid");
+
         // check artist
         Assert.assertEquals(mArtist, actual);
+
         // check summary
         Assert.assertEquals(mArtist.getBioSummary(), actual.getBioSummary());
     }
 
     @Test
     public void saveAndDeleteAllArtists() {
+
         // save artists
         mLocalDataSource.saveArtists(mArtists);
+
         // delete all artists from db
         mLocalDataSource.deleteAllArtists();
+
         // get all artists
         List<Artist> actual = mLocalDataSource.getArtists();
+
         // check actual data size
         Assert.assertEquals(actual.size(), 0);
     }

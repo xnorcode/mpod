@@ -9,9 +9,19 @@ import io.reactivex.Scheduler;
  */
 public interface BaseSchedulersProvider {
 
+
+    /**
+     * Retrieve background thread scheduler
+     * @return
+     */
     @NonNull
     Scheduler io();
 
+
+    /**
+     * Retrieve main thread scheduler
+     * @return
+     */
     @NonNull
     Scheduler ui();
 }

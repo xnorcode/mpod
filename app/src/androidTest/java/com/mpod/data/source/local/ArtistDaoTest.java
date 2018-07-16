@@ -49,50 +49,67 @@ public class ArtistDaoTest {
 
     @Test
     public void insertAndGetAllArtists() {
+
         // insert artists
         mDatabase.getArtistDao().insertArtists(mArtists);
+
         // get artists
         List<Artist> actualValues = mDatabase.getArtistDao().getArtists();
+
         // check list size
         Assert.assertEquals(1, actualValues.size());
+
         // check the actual values return from db
         Assert.assertEquals(mArtist, actualValues.get(0));
     }
 
     @Test
     public void insertAndGetArtistById() {
+
         // insert artists
         mDatabase.getArtistDao().insertArtists(mArtists);
+
         // get artist by mbid
         Artist actual = mDatabase.getArtistDao().getArtistById("mbid");
+
         // check actual values return by db
         Assert.assertEquals(actual, mArtist);
     }
 
     @Test
     public void insertAndUpdateArtist() {
+
         // insert artists
         mDatabase.getArtistDao().insertArtists(mArtists);
+
         // set artist summary
         mArtist.setBioSummary("bioSummary");
+
         // update artist
         mDatabase.getArtistDao().updateArtist(mArtist);
+
         // get artist by mbid
         Artist actual = mDatabase.getArtistDao().getArtistById("mbid");
+
         // check actual values return by db
         Assert.assertEquals(actual, mArtist);
+
         // check summary
         Assert.assertEquals(actual.getBioSummary(), "bioSummary");
     }
 
     @Test
     public void insertAndDeleteAllArtists() {
+
         // insert artists
         mDatabase.getArtistDao().insertArtists(mArtists);
+
         // delete all artists from db
         mDatabase.getArtistDao().deleteArtists();
+
         // get all artists
         List<Artist> actual = mDatabase.getArtistDao().getArtists();
+
         // check actual data size
         Assert.assertEquals(actual.size(), 0);
     }
