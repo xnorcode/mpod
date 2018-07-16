@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/details_artist_image"
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/details_artist_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/details_artist_image"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>
+
+        <TextView
+            android:id="@+id/details_artist_listeners"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/details_artist_name"
+            android:gravity="start"
+            android:padding="16dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/details_artist_playcount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/details_artist_listeners"
+            android:gravity="start"
+            android:padding="16dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/details_artist_summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/details_artist_playcount"
+            android:gravity="start"
+            android:padding="16dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"/>
+    </RelativeLayout>
+
+</ScrollView>
