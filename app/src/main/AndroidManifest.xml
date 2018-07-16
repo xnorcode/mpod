@@ -27,10 +27,12 @@
 
         <activity
             android:name=".ui.list.ListActivity"
+            android:launchMode="singleTask"
             android:parentActivityName=".ui.search.SearchActivity"/>
 
         <activity
             android:name=".ui.details.DetailsActivity"
+            android:launchMode="singleTask"
             android:parentActivityName=".ui.list.ListActivity"/>
     </application>
 
