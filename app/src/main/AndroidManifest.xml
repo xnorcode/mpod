@@ -25,9 +25,13 @@
 
         <activity android:name=".ui.search.SearchActivity"/>
 
-        <activity android:name=".ui.list.ListActivity"/>
+        <activity
+            android:name=".ui.list.ListActivity"
+            android:parentActivityName=".ui.search.SearchActivity"/>
 
-        <activity android:name=".ui.details.DetailsActivity"/>
+        <activity
+            android:name=".ui.details.DetailsActivity"
+            android:parentActivityName=".ui.list.ListActivity"/>
     </application>
 
 </manifest>
