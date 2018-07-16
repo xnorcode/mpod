@@ -1,6 +1,7 @@
 package com.mpod.ui.list;
 
 import com.mpod.data.source.ArtistRepository;
+import com.mpod.data.source.prefs.PreferenceHelper;
 import com.mpod.utils.Schedulers.BaseSchedulersProvider;
 
 import javax.inject.Inject;
@@ -20,18 +21,35 @@ public class ListPresenter implements ListContract.Presenter {
     // using this method to be able to perform tests easily
     BaseSchedulersProvider mSchedulersProvider;
 
+    PreferenceHelper mPrefsManager;
+
     private CompositeDisposable mCompositeDisposable;
 
+
     @Inject
-    public ListPresenter(ArtistRepository mArtistRepository, BaseSchedulersProvider schedulersProvider) {
+    public ListPresenter(ArtistRepository mArtistRepository, BaseSchedulersProvider schedulersProvider, PreferenceHelper preferenceHelper) {
         this.mArtistRepository = mArtistRepository;
         this.mSchedulersProvider = schedulersProvider;
+        this.mPrefsManager = preferenceHelper;
         this.mCompositeDisposable = new CompositeDisposable();
     }
 
 
     @Override
     public void searchArtist(String name) {
+
+        // compare against last search
+        String lastSearch = mPrefsManager.getLastSearch();
+
+        if (lastSearch.isEmpty()) {
+            // save search
+            mPrefsManager.setLastSearch(name);
+        } else if (!lastSearch.equals(name)) {
+            // force download from API
+            mArtistRepository.refreshArtists();
+        }
+
+        // request data from repository
         Disposable disposable = mArtistRepository.searchArtist(name)
                 .subscribeOn(mSchedulersProvider.io())
                 .observeOn(mSchedulersProvider.ui())
