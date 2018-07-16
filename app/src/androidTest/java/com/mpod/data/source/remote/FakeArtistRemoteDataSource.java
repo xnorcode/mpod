@@ -53,6 +53,8 @@ public class FakeArtistRemoteDataSource implements ApiHelper {
         if (mbid.equals("mbid")) {
             artist = new Artist("mbid", "name", "url");
             artist.setListeners("10");
+            artist.setPlaycount("90");
+            artist.setBioSummary("Summary...");
         }
         return artist;
     }
