@@ -2,6 +2,7 @@ package com.mpod.ui.list;
 
 import com.mpod.data.Artist;
 import com.mpod.data.source.ArtistRepository;
+import com.mpod.data.source.prefs.PrefsManager;
 import com.mpod.utils.Schedulers.TestSchedulersProvider;
 
 import org.junit.Before;
@@ -31,6 +32,9 @@ public class ListPresenterTest {
     @Mock
     private ArtistRepository mArtistRepository;
 
+    @Mock
+    private PrefsManager mPrefsManager;
+
     private Artist mArtist;
     private List<Artist> mArtists;
 
@@ -40,7 +44,7 @@ public class ListPresenterTest {
     public void setup() {
 
         // init presenter with test schedulers and mock repository
-        mPresenter = new ListPresenter(mArtistRepository, TestSchedulersProvider.getInstance());
+        mPresenter = new ListPresenter(mArtistRepository, TestSchedulersProvider.getInstance(), mPrefsManager);
 
         // set mock view
         mPresenter.setView(mView);
@@ -54,6 +58,9 @@ public class ListPresenterTest {
     @Test
     public void searchArtist_showArtists() {
 
+        // set data in preference not available
+        Mockito.when(mPrefsManager.getLastSearch()).thenReturn("");
+
         // set data available in artist repository
         Mockito.when(mArtistRepository.searchArtist("name")).thenReturn(Flowable.just(mArtists));
 
@@ -66,6 +73,9 @@ public class ListPresenterTest {
 
     @Test
     public void searchArtist_showError() {
+
+        // set data in preference not available
+        Mockito.when(mPrefsManager.getLastSearch()).thenReturn("");
 
         // set data not available in artist repository
         Mockito.when(mArtistRepository.searchArtist("name")).thenReturn(Flowable.error(new Exception("error msg")));
