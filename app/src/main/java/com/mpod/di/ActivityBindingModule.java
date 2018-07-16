@@ -1,5 +1,7 @@
 package com.mpod.di;
 
+import com.mpod.ui.details.DetailsActivity;
+import com.mpod.ui.details.DetailsModule;
 import com.mpod.ui.list.ListActivity;
 import com.mpod.ui.list.ListModule;
 import com.mpod.ui.search.SearchActivity;
@@ -24,4 +26,7 @@ public abstract class ActivityBindingModule {
 
     @ContributesAndroidInjector(modules = ListModule.class)
     abstract ListActivity provideListActivity();
+
+    @ContributesAndroidInjector(modules = DetailsModule.class)
+    abstract DetailsActivity provideDetailsActivity();
 }
