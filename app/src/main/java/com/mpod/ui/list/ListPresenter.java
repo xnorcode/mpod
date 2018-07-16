@@ -1,7 +1,7 @@
 package com.mpod.ui.list;
 
 import com.mpod.data.source.ArtistRepository;
-import com.mpod.data.source.prefs.PreferenceHelper;
+import com.mpod.utils.prefs.PreferenceHelper;
 import com.mpod.utils.Schedulers.BaseSchedulersProvider;
 
 import javax.inject.Inject;

@@ -2,7 +2,7 @@ package com.mpod.ui.list;
 
 import com.mpod.data.Artist;
 import com.mpod.data.source.ArtistRepository;
-import com.mpod.data.source.prefs.PrefsManager;
+import com.mpod.utils.prefs.PrefsManager;
 import com.mpod.utils.Schedulers.TestSchedulersProvider;
 
 import org.junit.Before;

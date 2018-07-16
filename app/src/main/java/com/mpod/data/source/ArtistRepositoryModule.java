@@ -8,8 +8,6 @@ import com.mpod.data.source.local.ArtistDao;
 import com.mpod.data.source.local.ArtistLocalDataSource;
 import com.mpod.data.source.local.DbHelper;
 import com.mpod.data.source.local.MpodDatabase;
-import com.mpod.data.source.prefs.PreferenceHelper;
-import com.mpod.data.source.prefs.PrefsManager;
 import com.mpod.data.source.remote.ApiHelper;
 import com.mpod.data.source.remote.ArtistRemoteDataSource;
 
@@ -25,12 +23,6 @@ import dagger.Provides;
  */
 @Module
 public class ArtistRepositoryModule {
-
-    @Singleton
-    @Provides
-    PreferenceHelper providesPreferenceHelper(Application context) {
-        return new PrefsManager(context.getApplicationContext());
-    }
 
     @Singleton
     @Provides

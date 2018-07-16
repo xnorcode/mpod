@@ -1,4 +1,4 @@
-package com.mpod.data.source.prefs;
+package com.mpod.utils.prefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;

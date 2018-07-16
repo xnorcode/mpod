@@ -1,4 +1,4 @@
-package com.mpod.data.source.prefs;
+package com.mpod.utils.prefs;
 
 /**
  * Created by xnorcode on 16/07/2018.
