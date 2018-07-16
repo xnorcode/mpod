@@ -48,7 +48,7 @@ public class ListPresenter implements ListContract.Presenter {
     @Override
     public void dropView() {
         mView = null;
-        mCompositeDisposable.clear();
+        if (mCompositeDisposable != null) mCompositeDisposable.clear();
         mCompositeDisposable = null;
     }
 }

@@ -79,6 +79,8 @@ public class DetailsFragment extends DaggerFragment implements DetailsContract.V
         super.onDestroy();
 
         mPresenter.dropView();
+
+        mPresenter = null;
     }
 
     @Override

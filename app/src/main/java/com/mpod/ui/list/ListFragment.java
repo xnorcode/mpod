@@ -79,6 +79,8 @@ public class ListFragment extends DaggerFragment implements ListContract.View {
 
         mPresenter.dropView();
 
+        mPresenter = null;
+
         if (mRecyclerAdapter != null) mRecyclerAdapter.destroy();
         mRecyclerAdapter = null;
 
